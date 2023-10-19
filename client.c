@@ -9,12 +9,12 @@ void	received(int sig)
 		g_bit++;
 	else if (sig == SIGUSR2)
 	{
-		ft_printf("Send letter\n");
+		writer(1, 'Send letter\n', 13);
 		g_bit++;
 	}
 	else
 	{
-		ft_printf("\tError: Signal is invalid.\n");
+		write(1, "\tError: Signal is invalid.\n", 28);
 		exit(22);
 	}
 }

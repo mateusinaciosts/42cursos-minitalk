@@ -2,10 +2,11 @@
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include <signal.h>
-# include "./libft/libft.h"
-# include <sys/types.h>
-# include <stdio.h>
-# include <unistd.h>
+#include "../printf/ft_printf.h"
+#include "../libft/libft.h"
+#include <signal.h>
+#include <sys/types.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #endif
