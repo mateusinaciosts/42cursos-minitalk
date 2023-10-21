@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: matsanto <matsanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/20 21:17:15 by matsanto          #+#    #+#             */
+/*   Updated: 2023/10/20 21:34:34 by matsanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "minitalk.h"
 
@@ -8,7 +20,7 @@ void	handler(int signum, siginfo_t *info, void *context)
 	(void)context;
 	(void)info;
 	if (signum == SIGUSR1)
-		ft_printf("char sended!\n");
+		write(1, "char sended!\n", 14);
 	else
 		g_wait = 0;
 }
@@ -49,13 +61,13 @@ void	sendbit(pid_t pid, char c)
 				kill (pid, SIGUSR2);
 			c >>= 1;
 			i++;
-			usleep(5000);
+			usleep(42);
 		//	g_wait	= 1;
 		}
 	}
 }
 
-int	main(int ac, char *av[])
+int	main(int argc, char *argv[])
 {
 	char	*str;
 	pid_t	pid;
@@ -64,13 +76,13 @@ int	main(int ac, char *av[])
 	i = 0;
 	g_wait = 0;
 	init();
-	if (ac != 3)
+	if (argc != 3)
 	{
-		ft_printf("./client <process_id> <msg>!\n");
+		write(1, "./client <PID> <msg>!\n", 30);
 		return (-1);
 	}
-	pid = ft_atoi(av[1]);
-	str = av[2];
+	pid = ft_atoi(argv[1]);
+	str = argv[2];
 	while (str[i] != '\0')
 	{
 		sendbit(pid, str[i]);

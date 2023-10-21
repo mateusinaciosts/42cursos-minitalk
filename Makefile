@@ -43,6 +43,12 @@ fclean: clean
 	make fclean -C ./libft/
 
 re: fclean all
+
+test:
+	@clear
+	@make re
+	@clear
+	./server
 	
 .PHONY: all clean fclean re
 

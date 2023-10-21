@@ -5,7 +5,6 @@
 #include "../printf/ft_printf.h"
 #include "../libft/libft.h"
 #include <signal.h>
-#include <sys/types.h>
 #include <stdio.h>
 #include <unistd.h>
 
