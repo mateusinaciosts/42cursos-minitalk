@@ -3,34 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matsanto <matsanto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mateus <mateus@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:17:19 by matsanto          #+#    #+#             */
-/*   Updated: 2023/10/20 21:17:19 by matsanto         ###   ########.fr       */
+/*   Updated: 2023/10/27 20:33:45 by mateus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static char	g_bit;
-
 void	signal_handle(int signum, siginfo_t *info, void *context)
 {
-	static char	temp;
+	static t_char_bit	bit;
 
-	if (g_bit <= 8)
+	if (bit.index <= 7)
 	{
 		if (signum == SIGUSR1)
-			temp += 1 << g_bit;
+			bit.bit += 1 << bit.index;
 		else
-			temp += 0 << g_bit;
-		g_bit++;
+			bit.bit += 0 << bit.index;
+		bit.index++;
 	}
-	if (g_bit == 8)
+	if (bit.index == 8)
 	{
-		write(1, &temp, 1);
-		g_bit = 0;
-		temp = 0;
+		write(1, &bit.bit, 1);
+		bit.bit = 0;
+		bit.index = 0;
 		kill(info->si_pid, SIGUSR1);
 	}
 	kill(info->si_pid, SIGUSR2);
@@ -51,7 +49,7 @@ void	init(void)
 int	main(void)
 {
 	init();
-	ft_printf("server process = [%d]\n", getpid());
+	ft_printf("server: %d\n", getpid());
 	while (1)
 		pause();
 	return (0);

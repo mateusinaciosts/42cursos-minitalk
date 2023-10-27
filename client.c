@@ -3,94 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matsanto <matsanto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mateus <mateus@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:17:15 by matsanto          #+#    #+#             */
-/*   Updated: 2023/10/20 21:34:34 by matsanto         ###   ########.fr       */
+/*   Updated: 2023/10/27 20:37:24 by mateus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minitalk.h"
 
-char	g_wait;
+int	g_bit = 0;
 
-void	handler(int signum, siginfo_t *info, void *context)
+void	received(int sig)
 {
-	(void)context;
-	(void)info;
-	if (signum == SIGUSR1)
-		write(1, "char sended!\n", 14);
+	if (sig == SIGUSR1)
+		g_bit++;
+	else if (sig == SIGUSR2)
+	{
+		write(1, "Send letter\n", 13);
+		g_bit++;
+	}
 	else
-		g_wait = 0;
-}
-
-void	init(void)
-{
-	struct sigaction	sa;
-
-	ft_bzero(&sa, sizeof (sa));
-	sa.sa_flags = 0;
-	sa.sa_sigaction = handler;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
-}
-
-void	putstr(char *c)
-{
-	while (*c)
 	{
-		write(1, c, 1);
-		c++;
+		write(1, "\tError: Signal is invalid.\n", 28);
+		exit(22);
 	}
 }
 
-void	sendbit(pid_t pid, char c)
+void	send_bit(pid_t pid, char byte)
 {
-	int	i;
+	int	shift_bits;
 
-	i = 0;
-	while (i < 8)
+	shift_bits = 0;
+	while (shift_bits < 8)
 	{
-		if (!g_wait)
+		if ((byte >> shift_bits) & 1)
 		{
-			g_wait	= 1;
-			if (c & 1)
-				kill (pid, SIGUSR1);
-			else
-				kill (pid, SIGUSR2);
-			c >>= 1;
-			i++;
-			usleep(42);
-		//	g_wait	= 1;
+			kill(pid, SIGUSR1);
 		}
+		else
+		{
+			kill(pid, SIGUSR2);
+		}
+		usleep(42);
+		shift_bits++;
 	}
 }
 
-int	main(int argc, char *argv[])
+int	main(int argc, char **argv)
 {
-	char	*str;
 	pid_t	pid;
-	size_t	i;
+	int		i;
 
-	i = 0;
-	g_wait = 0;
-	init();
+	signal(SIGUSR1, received);
+	signal(SIGUSR2, received);
 	if (argc != 3)
-	{
-		write(1, "./client <PID> <msg>!\n", 30);
-		return (-1);
-	}
+		write(1, "Wrong number of arguments.", 27);
 	pid = ft_atoi(argv[1]);
-	str = argv[2];
-	while (str[i] != '\0')
+	i = 0;
+	while (argv[2][i])
 	{
-		sendbit(pid, str[i]);
+		send_bit(pid, argv[2][i]);
 		i++;
 	}
-	sendbit(pid, '\n');
-	exit (0);
-	while (1)
-		pause();
+	send_bit(pid, '\n');
 	return (0);
 }
