@@ -6,7 +6,7 @@
 /*   By: matsanto <matsanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 10:35:08 by matsanto          #+#    #+#             */
-/*   Updated: 2023/05/17 12:53:29 by matsanto         ###   ########.fr       */
+/*   Updated: 2023/10/28 02:31:46 by matsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_putnbr_fd(int n, int fd)
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
-	n = n * -1;
+		n *= -1 ;
 	}
 	if (n >= 10)
 	{
