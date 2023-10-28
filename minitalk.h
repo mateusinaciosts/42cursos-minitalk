@@ -6,7 +6,7 @@
 /*   By: mateus <mateus@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 18:47:21 by mateus            #+#    #+#             */
-/*   Updated: 2023/10/27 19:44:46 by mateus           ###   ########.fr       */
+/*   Updated: 2023/10/27 23:42:22 by mateus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../libft/libft.h"
 # include <signal.h>
 # include <stdio.h>
+# include <sys/types.h>
 # include <unistd.h>
 
 typedef struct s_char_bit

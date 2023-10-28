@@ -6,7 +6,7 @@
 /*   By: mateus <mateus@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:17:15 by matsanto          #+#    #+#             */
-/*   Updated: 2023/10/27 23:38:32 by mateus           ###   ########.fr       */
+/*   Updated: 2023/10/27 23:42:25 by mateus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handle_signal(int sig)
 	}
 }
 
-void	end_bit(pid_t pid, char byte)
+void	send_bit(pid_t pid, char byte)
 {
 	int	shift_bits;
 
