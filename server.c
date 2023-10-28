@@ -6,13 +6,13 @@
 /*   By: mateus <mateus@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:17:19 by matsanto          #+#    #+#             */
-/*   Updated: 2023/10/27 20:33:45 by mateus           ###   ########.fr       */
+/*   Updated: 2023/10/27 23:14:32 by mateus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	signal_handle(int signum, siginfo_t *info, void *context)
+void	handle_signal(int signum)
 {
 	static t_char_bit	bit;
 
@@ -29,26 +29,13 @@ void	signal_handle(int signum, siginfo_t *info, void *context)
 		write(1, &bit.bit, 1);
 		bit.bit = 0;
 		bit.index = 0;
-		kill(info->si_pid, SIGUSR1);
 	}
-	kill(info->si_pid, SIGUSR2);
-	(void)context;
-}
-
-void	init(void)
-{
-	struct sigaction	sa;
-
-	ft_bzero(&sa, sizeof(sa));
-	sa.sa_sigaction = signal_handle;
-	sa.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
 }
 
 int	main(void)
 {
-	init();
+	signal(SIGUSR1, handle_signal);
+	signal(SIGUSR2, handle_signal);
 	ft_printf("server: %d\n", getpid());
 	while (1)
 		pause();
