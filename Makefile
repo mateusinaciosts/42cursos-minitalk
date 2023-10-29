@@ -20,13 +20,13 @@ all: $(NAME)
 $(NAME): $(SERVER) $(CLIENT)
 
 $(CLIENT): $(OBJ_CLIENT)
-	make re -C ./printf/
-	make re -C ./libft/
+	make -C ./printf/
+	make -C ./libft/
 	cc $(OBJ_CLIENT) $(LFLAGS) $(PFLAGS) -o $(CLIENT)
 
 $(SERVER): $(OBJ_SERVER)
-	make re -C ./printf/
-	make re -C ./libft/
+	make -C ./printf/
+	make -C ./libft/
 	cc $(OBJ_SERVER) $(LFLAGS) $(PFLAGS) -o $(SERVER)
 
 %.o: %.c
