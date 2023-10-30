@@ -6,7 +6,7 @@
 /*   By: matsanto <matsanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:17:15 by matsanto          #+#    #+#             */
-/*   Updated: 2023/10/29 17:57:32 by matsanto         ###   ########.fr       */
+/*   Updated: 2023/10/29 21:21:46 by matsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	send_bit(pid_t pid, char byte)
 	while (shift_bits < 8)
 	{
 		g_signal = 0;
-		if ((byte << shift_bits) & 1)
+		if ((byte >> shift_bits) & 1)
 		{
 			kill(pid, SIGUSR1);
 			while (!g_signal)

@@ -6,7 +6,7 @@
 /*   By: matsanto <matsanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:17:19 by matsanto          #+#    #+#             */
-/*   Updated: 2023/10/29 17:52:31 by matsanto         ###   ########.fr       */
+/*   Updated: 2023/10/29 21:24:52 by matsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	handle_signal(int signum, siginfo_t *info, void *context)
 	if (bit.index <= 7)
 	{
 		if (signum == SIGUSR1)
-			bit.bit += 1 >> bit.index;
+			bit.bit += 1 << bit.index;
 		else
-			bit.bit += 0 >> bit.index;
+			bit.bit += 0 << bit.index;
 		bit.index++;
 	}
 	if (bit.index == 8)
