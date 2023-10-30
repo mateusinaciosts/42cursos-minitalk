@@ -6,7 +6,7 @@
 /*   By: matsanto <matsanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:17:15 by matsanto          #+#    #+#             */
-/*   Updated: 2023/10/29 21:21:46 by matsanto         ###   ########.fr       */
+/*   Updated: 2023/10/29 22:40:06 by matsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ void	send_bit(pid_t pid, char byte)
 	}
 }
 
-int	main(int argc, char **argv)
+void	init(void)
 {
-	pid_t				pid;
-	int					i;
 	struct sigaction	sa;
 
 	ft_bzero(&sa, sizeof(sa));
@@ -64,6 +62,14 @@ int	main(int argc, char **argv)
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
+}
+
+int	main(int argc, char **argv)
+{
+	pid_t				pid;
+	int					i;
+
+	init();
 	if (argc != 3)
 	{
 		write(1, "Error: incorrect number of arguments\n", 38);
@@ -72,6 +78,11 @@ int	main(int argc, char **argv)
 	pid = ft_atoi(argv[1]);
 	i = 0;
 	g_signal = 0;
+	if (kill(pid, 0) == -1)
+	{
+		write(1, "Error: PID is invalid\n", 23);
+		exit(1);
+	}
 	while (argv[2][i])
 	{
 		send_bit(pid, argv[2][i]);
